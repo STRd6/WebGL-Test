@@ -2,16 +2,16 @@ FragmentShaderGenerator = (I) ->
   I ||= {}
 
   $.reverseMerge I,
-    depth: 3
+    depth: 4
 
-  leafNodes = ["x", "y", "t"]
+  leafNodes = ["x", "x", "y", "y", "t"]
 
   expressions = [
     "cos(PI * #)"
     "sin(PI * #)"
     "(# * #)"
     "(# / #)"
-    "((# + #) / 2)"
+    "((# + #) / 2.0)"
   ]
 
   createFunction = (depth) ->
@@ -21,7 +21,11 @@ FragmentShaderGenerator = (I) ->
       expressions.rand().replace("#", -> createFunction(depth-1))
 
   generate: ->
-    ["r", "g", "b"].map((c) ->
+    functions = ["r", "g", "b"].map((c) ->
       "float #{c} = #{createFunction(I.depth)};"
-    ).join("\n")
+    )
+
+    console.log(functions)
+
+    functions.join("\n")
 
