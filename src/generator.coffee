@@ -1,4 +1,9 @@
 FragmentShaderGenerator = (I) ->
+  I ||= {}
+
+  $.reverseMerge I,
+    depth: 3
+
   leafNodes = ["x", "y", "t"]
 
   expressions = [
@@ -17,6 +22,6 @@ FragmentShaderGenerator = (I) ->
 
   generate: ->
     ["r", "g", "b"].map((c) ->
-      "float #{c} = #{createFunction(3)};"
+      "float #{c} = #{createFunction(I.depth)};"
     ).join("\n")
 
