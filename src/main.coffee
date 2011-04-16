@@ -2,6 +2,8 @@
 
 canvas = $("canvas").get(0)
 
+# pCan = $("canvas").powerCanvas()
+
 vshader = Shader("vertex", """
   uniform mat4 u_modelViewProjMatrix;
 
@@ -128,11 +130,10 @@ drawPicture = (gl) ->
   gl.mvpMatrix.multiply(gl.mvMatrix)
   gl.mvpMatrix.setUniform(gl, gl.u_modelViewProjMatrixLoc, false)
 
-  # Bind the texture to use
-  gl.bindTexture(gl.TEXTURE_2D, texture)
-
   # Draw the cube
   gl.drawElements(gl.TRIANGLES, gl.box.numIndices, gl.UNSIGNED_BYTE, 0)
+
+  # pCan.fillCircle(50, 50, 15, "white")
 
   # Show the framerate
   framerate.snapshot()
