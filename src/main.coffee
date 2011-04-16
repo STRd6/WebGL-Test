@@ -109,7 +109,7 @@ reshape = (gl) ->
   gl.perspectiveMatrix.lookat(0, 0, 7, 0, 0, 0, 0, 1, 0)
 
 drawPicture = (gl) ->
-  t += 0.05
+  t += 0.01
 
   setUniform(gl, "t", "1f", t)
 
