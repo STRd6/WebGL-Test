@@ -129,7 +129,7 @@ reshape = (gl) ->
   # Set the viewport and projection matrix for the scene
   gl.viewport(0, 0, width, height)
   gl.perspectiveMatrix = new J3DIMatrix4()
-  gl.perspectiveMatrix.perspective(30, width/height, 1, 10000)
+  gl.perspectiveMatrix.perspective(10, width/height, 1, 10000)
   gl.perspectiveMatrix.lookat(0, 0, 7, 0, 0, 0, 0, 1, 0)
 
 drawPicture = (gl) ->
@@ -145,8 +145,6 @@ drawPicture = (gl) ->
 
   # Make a model/view matrix.
   gl.mvMatrix.makeIdentity()
-  gl.mvMatrix.rotate(20, 1,0,0)
-  gl.mvMatrix.rotate(currentAngle, 0,1,0)
 
   # Construct the normal matrix from the model-view matrix and pass it in
   gl.normalMatrix.load(gl.mvMatrix)
