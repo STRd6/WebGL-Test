@@ -24,16 +24,14 @@ fshader = Shader("fragment", """
 
   void main()
   {
+      float PI = 3.14159;
       float time = t;
-      float x = gl_FragCoord.x;
-      float y = gl_FragCoord.y;
-      float mov0 = x+y+cos(sin(time)*2.)*100.+sin(x/100.)*1000.;
-      float mov1 = x / 120. / 0.2 + time;
-      float mov2 = y / 75. / 0.2;
-      float c1 = abs(sin(mov1+time)/2.+mov2/2.-mov1-mov2+time);
-      float c2 = abs(sin(c1+sin(mov0/1000.+time)+sin(y/40.+time)+sin((x+y)/100.)*3.));
-      float c3 = abs(sin(c2+cos(mov1+mov2+c2)+cos(mov2)+sin(x/1000.)));
-      gl_FragColor = vec4(vec3(c1, c2, c3), 1);
+      float x = gl_FragCoord.x / 640.;
+      float y = gl_FragCoord.y / 480.;
+
+      #{FragmentShaderGenerator().generate()}
+
+      gl_FragColor = vec4(vec3(r, g, b), 1);
   }
 """)
 
