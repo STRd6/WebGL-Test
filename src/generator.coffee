@@ -18,7 +18,7 @@ FragmentShaderGenerator = (I) ->
     if depth == 0
       leafNodes.rand()
     else
-      expressions.rand().replace("#", -> createFunction(depth-1))
+      expressions.rand().replace(/#/g, -> createFunction(depth-1))
 
   generate: ->
     functions = ["r", "g", "b"].map((c) ->
