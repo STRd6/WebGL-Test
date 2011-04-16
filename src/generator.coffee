@@ -2,7 +2,7 @@ FragmentShaderGenerator = (I) ->
   I ||= {}
 
   $.reverseMerge I,
-    depth: 4
+    depth: 5
 
   leafNodes = ["x", "x", "y", "y", "t"]
 
@@ -12,6 +12,8 @@ FragmentShaderGenerator = (I) ->
     "(# * #)"
     "(# / #)"
     "((# + #) / 2.0)"
+    "pow(#, 2)"
+    "pow(#, 3)"
   ]
 
   createFunction = (depth) ->
