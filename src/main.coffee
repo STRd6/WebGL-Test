@@ -39,7 +39,6 @@ fshader = Shader("fragment", """
 
 width = -1
 height = -1
-currentAngle = 0
 incAngle = 0.5
 texture = null
 framerate = null
@@ -137,9 +136,6 @@ drawPicture = (gl) ->
 
   # Show the framerate
   framerate.snapshot()
-
-  currentAngle += incAngle
-  currentAngle -= 360 if (currentAngle > 360)
 
 start = ->
   return unless (gl = init())
