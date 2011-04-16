@@ -4,22 +4,12 @@ canvas = $("canvas").get(0)
 
 vshader = Shader("vertex", """
   uniform mat4 u_modelViewProjMatrix;
-  uniform mat4 u_normalMatrix;
-  uniform vec3 lightDir;
 
-  attribute vec3 vNormal;
-  attribute vec4 vTexCoord;
   attribute vec4 vPosition;
-
-  varying float v_Dot;
-  varying vec2 v_texCoord;
 
   void main()
   {
       gl_Position = u_modelViewProjMatrix * vPosition;
-      v_texCoord = vTexCoord.st;
-      vec4 transNormal = u_normalMatrix * vec4(vNormal, 1);
-      v_Dot = max(dot(transNormal.xyz, lightDir), 0.0);
   }
 """)
 
@@ -28,11 +18,7 @@ fshader = Shader("fragment", """
     precision mediump float;
   #endif
 
-  uniform sampler2D sampler2d;
   uniform float t;
-
-  varying float v_Dot;
-  varying vec2 v_texCoord;
 
   void main()
   {
@@ -45,7 +31,7 @@ fshader = Shader("fragment", """
       float c1 = abs(sin(mov1+time)/2.+mov2/2.-mov1-mov2+time);
       float c2 = abs(sin(c1+sin(mov0/1000.+time)+sin(y/40.+time)+sin((x+y)/100.)*3.));
       float c3 = abs(sin(c2+cos(mov1+mov2+c2)+cos(mov2)+sin(x/1000.)));
-      gl_FragColor = vec4(vec3(c1, c2, c3) * max(v_Dot, 0.5), 1);
+      gl_FragColor = vec4(vec3(c1, c2, c3), 1);
   }
 """)
 
@@ -77,10 +63,6 @@ init = ->
 
   return unless gl
 
-  # Set some uniform variables for the shaders
-  setUniform(gl, "lightDir", "3f", 0, 0, 1)
-  setUniform(gl, "sampler2d", "1i", 0)
-
   # Enable texturing
   gl.enable(gl.TEXTURE_2D)
 
@@ -89,13 +71,8 @@ init = ->
   # normals, texture coords, and indices.
   gl.box = makeBox(gl)
 
-  # Load an image to use. Returns a WebGLTexture object
-  texture = loadImageTexture(gl, "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADF0lEQVRYR51Xu24UQRCcPR/ODJZBFqSWQIKARwAJJMghfCsigAgMv4AJQALJIUYWWIaMs33L1dzVqLane7xwiX2386iurq7u7c6/HfaTG9fTv37mh9/DLdF5umd+dJT3d6cf9nv8M713N3FBCxDWYPP8x08XwOTa1TTZ3k56Bs/Vff3xceq2tlL35+27DAAbeSj+ByD7me29T9zIPbjMfuzluFjXMfoBA/hy/uXrkpYFsumd24MocPn84CA/n+zsDJ4jwhbtZ58+V+dxT9cvPh5FCgDPcQijX999WoJmSiztXHC2/3EJ2qSFzzMAfiEQi5iXUCtKOcFZxrCmtc8FwE0eZYjE0wV+h3ZaAKLoc7qVAfyglFXqApVSsow+M2M0owx4wJspoGpZNjg859H4BaO3VaOp9MpSA6s0gEuJOLpAU5WBrWo//74qOaSRz0YxQDoVsVJsowQ4LVtUSM7pooT5P75fevI4LNGBBhSAIiYLmmeuhS90m5uVVPqTk9T/+p26K5fT9NFDV7yVBlrlxGjXbt0sh2n9KwKkAMwABMBhD11Q0xsC8GwYAE7f7OWI1p8/qypBxckqyvkXm4YmwJhlpIjQo5oo8Wz24mXqNjbS2oP7iU6o3Q0g1FGt8GjlLgDSSVEp1VT87NXrpaqDPmDBWGFEhlV6Ab2euVP1ajV4peVVkALQtFhmSgrUPFTxWvPastX5LvILNTRrZpUVe91NK4SHUazaKal46oF/aU5ey64AMGLP82lSdDlatLZqrGEFKNhR7bhyFFirGcF4AddGE5HtB5EduwzwcBWXzoCIXMeqKLrIXTXQJgArLvudUV40jllRjwLg9fpWc/LSh99aFTJoRvaAMc0pmp4HvWE1T0YshCnQ0suqlmFEbXsMiNbYFpYhu5p2s/8FocOpFaw7EUHxGCpgy2gerZEba1marcmHdmwH2NILWFZabgBhG5OnFfvmY1OmXdX6R3431ChsD1dn08tt6dleEmmDTJRxTt8NLYWaO2UmmnS1L2A2bIEoU5O+HUe1rL2+UBi80qt1t0ZyVsZfiOFPRiQlkMcAAAAASUVORK5CYII=")
-
   # Create some matrices to use later and save their locations in the shaders
   gl.mvMatrix = new J3DIMatrix4()
-  gl.u_normalMatrixLoc = gl.getUniformLocation(gl.program, "u_normalMatrix")
-  gl.normalMatrix = new J3DIMatrix4()
   gl.u_modelViewProjMatrixLoc =
     gl.getUniformLocation(gl.program, "u_modelViewProjMatrix")
   gl.mvpMatrix = new J3DIMatrix4()
@@ -145,12 +122,6 @@ drawPicture = (gl) ->
 
   # Make a model/view matrix.
   gl.mvMatrix.makeIdentity()
-
-  # Construct the normal matrix from the model-view matrix and pass it in
-  gl.normalMatrix.load(gl.mvMatrix)
-  gl.normalMatrix.invert()
-  gl.normalMatrix.transpose()
-  gl.normalMatrix.setUniform(gl, gl.u_normalMatrixLoc, false)
 
   # Construct the model-view * projection matrix and pass it in
   gl.mvpMatrix.load(gl.perspectiveMatrix)
