@@ -29,7 +29,7 @@ fshader = Shader("fragment", """
       float x = gl_FragCoord.x / 640.;
       float y = gl_FragCoord.y / 480.;
 
-      #{FragmentShaderGenerator().generate()}
+      #{FragmentShaderGenerator().preset()}
 
       gl_FragColor = vec4(vec3(r, g, b), 1);
   }
