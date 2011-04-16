@@ -25,8 +25,8 @@ FragmentShaderGenerator = (I) ->
 
   preset: () ->
     [
-     "float r = (sin(PI * (((y * x) / sin(PI * 1.)) * pow(cos(PI * -1.), 3.))) / (((((((y * 1.) + cos(PI * x)) / 2.0) + pow(pow(1., 3.), 3.)) / 2.0) + cos(PI * ((cos(PI * y) + ((1. + x) / 2.0)) / 2.0))) / 2.0));"
-     "float g = sin(PI * sin(PI * (sin(PI * (y / x)) / sin(PI * (-1. / x)))));", 
+     "float r = (sin(PI * (((y * x) / sin(PI * 1.)) * -1.0)) / (((((((y) + cos(PI * x)) / 2.0) + 1.0) / 2.0) + cos(PI * ((cos(PI * y) + ((1. + x) / 2.0)) / 2.0))) / 2.0));"
+     "float g = 0.;"#"float g = sin(PI * sin(PI * (sin(PI * (y / x)) / sin(PI * (-1. / x)))));", 
      "float b = abs(((abs(cos(PI * pow(y, 3.))) + cos(PI * ((((x + x) / 2.0) + pow(y, 3.)) / 2.0))) / 2.0));"
     ].join("\n")
 
