@@ -4,7 +4,7 @@ FragmentShaderGenerator = (I) ->
   $.reverseMerge I,
     depth: 5
 
-  leafNodes = ["x", "x", "y", "y", "t"]
+  leafNodes = ["x", "x", "y", "y", "t", "1.", "-1."]
 
   expressions = [
     "cos(PI * #)"
@@ -12,8 +12,7 @@ FragmentShaderGenerator = (I) ->
     "(# * #)"
     "(# / #)"
     "((# + #) / 2.0)"
-    "pow(#, 2)"
-    "pow(#, 3)"
+    "pow(#, 3.)"
   ]
 
   createFunction = (depth) ->
