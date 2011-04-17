@@ -1,4 +1,4 @@
-###
+###*
 @name Framerate
 @constructor
 
@@ -36,7 +36,13 @@ Framerate = ->
 
   setInterval(updateFramerate, framerateUpdateInterval)
 
-  snapshot: ->
+  ###*
+  @name rendered
+  @methodOf Framerate#
+
+  Call this method everytime you render.
+  ###
+  rendered: ->
     if renderTime < 0
       renderTime = new Date().getTime()
     else
