@@ -90,11 +90,10 @@ drawPicture = (gl) ->
   # Clear the canvas
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
-  gl.bindBuffer( gl.ARRAY_BUFFER, buffer )
-  gl.vertexAttribPointer( vertex_position, 2, gl.FLOAT, false, 0, 0 )
-  gl.enableVertexAttribArray( vertex_position )
+  gl.vertexAttribPointer( 0, 2, gl.FLOAT, false, 0, 0 )
+  gl.enableVertexAttribArray( 0 )
   gl.drawArrays( gl.TRIANGLES, 0, 6 )
-  gl.disableVertexAttribArray( vertex_position )
+  gl.disableVertexAttribArray( 0 )
 
   # Show the framerate
   framerate.snapshot()
