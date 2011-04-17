@@ -100,7 +100,7 @@ drawPicture = (gl) ->
   gl.drawArrays( gl.TRIANGLES, 0, 6 )
 
   # Show the framerate
-  framerate.snapshot()
+  framerate.rendered()
 
 start = ->
   return unless (gl = init())
