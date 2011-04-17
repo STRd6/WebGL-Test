@@ -18,13 +18,14 @@ fshader = Shader("fragment", """
   #endif
 
   uniform float t;
+  uniform vec2 resolution;
 
   void main()
   {
       float PI = 3.14159;
       float time = t;
-      float x = gl_FragCoord.x / 640.;
-      float y = gl_FragCoord.y / 480.;
+      float x = gl_FragCoord.x / resolution.x;
+      float y = gl_FragCoord.y / resolution.y;
 
       #{FragmentShaderGenerator().generate()}
 
@@ -86,10 +87,11 @@ reshape = (gl) ->
 drawPicture = (gl) ->
   t += 0.01
 
-  setUniform(gl, "t", "1f", t)
-
   # Make sure the canvas is sized correctly.
   reshape(gl)
+
+  setUniform(gl, "t", "1f", t)
+  setUniform(gl, "resolution", "2f", width, height)
 
   # Clear the canvas
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
