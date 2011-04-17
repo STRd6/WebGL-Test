@@ -56,7 +56,7 @@ init = ->
     # The vertex attribute names used by the shaders.
     # The order they appear here corresponds to their index
     # used later.
-    [ "vNormal", "vColor", "vPosition"],
+    [ ],
     # The clear color and depth values
     [ 0, 0, 0.5, 1 ], 10000
   )
@@ -67,6 +67,10 @@ init = ->
   buffer = gl.createBuffer()
   gl.bindBuffer( gl.ARRAY_BUFFER, buffer )
   gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [ - 1.0, - 1.0, 1.0, - 1.0, - 1.0, 1.0, 1.0, - 1.0, 1.0, 1.0, - 1.0, 1.0 ] ), gl.STATIC_DRAW )
+
+  # Setting position attribute???
+  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0)
+  gl.enableVertexAttribArray(0)
 
   return gl
 
@@ -90,10 +94,8 @@ drawPicture = (gl) ->
   # Clear the canvas
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
-  gl.vertexAttribPointer( 0, 2, gl.FLOAT, false, 0, 0 )
-  gl.enableVertexAttribArray( 0 )
+  # Draw
   gl.drawArrays( gl.TRIANGLES, 0, 6 )
-  gl.disableVertexAttribArray( 0 )
 
   # Show the framerate
   framerate.snapshot()
