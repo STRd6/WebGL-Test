@@ -2,26 +2,29 @@ FragmentShaderGenerator = (I) ->
   I ||= {}
 
   $.reverseMerge I,
-    depth: 5
-
-  leafNodes = ["x", "x", "y", "y", "t", "1.", "-1."]
-
-  expressions = [
-    "abs(#)"
-    "cos(PI * #)"
-    "sin(PI * #)"
-    #"tan(PI * #)"
-    "(# * #)"
-    "(# / #)"
-    "((# + #) / 2.0)"
-    "pow(#, 3.)"
-  ]
+    depth: 4
+    leafNodes: ["x", "x", "x", "y", "y", "y", "cos(t)", "sin(t)"]
+    expressions: [
+      "abs(#)"
+      "cos(PI * #)"
+      "sin(PI * #)"
+      # "min(#, #)"
+      # "max(#, #)"
+      #"tan(PI * #)"
+      "(# * #)"
+      "(# / #)"
+      "((# + #) / 2.0)"
+      # "(# / 16.)"
+      "pow(#, 3.)"
+      "pow(#, 2.)"
+    ]
+    outputs: ["r", "g", "b"]
 
   createFunction = (depth) ->
     if depth == 0
-      leafNodes.rand()
+      I.leafNodes.rand()
     else
-      expressions.rand().replace(/#/g, -> createFunction(depth-1))
+      I.expressions.rand().replace(/#/g, -> createFunction(depth-1))
 
   preset: () ->
     [
@@ -31,7 +34,7 @@ FragmentShaderGenerator = (I) ->
     ].join("\n")
 
   generate: ->
-    functions = ["r", "g", "b"].map((c) ->
+    functions = I.outputs.map((c) ->
       "float #{c} = #{createFunction(I.depth)};"
     )
 
