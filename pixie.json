@@ -1,0 +1,14 @@
+{
+  "author": "STRd6",
+  "name": "WebGL Test",
+  "libs": {
+    "gamelib.js": "https://github.com/STRd6/gamelib/raw/pixie/gamelib.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "source": "src",
+    "test": "test"
+  },
+  "width": 320,
+  "height": 240
+}
