@@ -18676,7 +18676,7 @@ window.requestAnimFrame = (function() {
 })();
 ;
 var Framerate;
-/**
+/***
 @name Framerate
 @constructor
 
@@ -18715,7 +18715,13 @@ Framerate = function() {
   };
   setInterval(updateFramerate, framerateUpdateInterval);
   return {
-    snapshot: function() {
+    /***
+    @name rendered
+    @methodOf Framerate#
+
+    Call this method everytime you render.
+    */
+    rendered: function() {
       var framerate, newTime, t;
       if (renderTime < 0) {
         return (renderTime = new Date().getTime());
@@ -18768,7 +18774,7 @@ Shader = function(type, text) {
     text: text
   };
 };;
-;$(function(){ var buffer, canvas, drawPicture, framerate, fshader, height, incAngle, init, reshape, setUniform, start, t, texture, vertex_position, vshader, width;
+;$(function(){ var buffer, canvas, drawPicture, framerate, fshader, height, incAngle, init, reshape, setUniform, t, texture, vertex_position, vshader, width;
 var __slice = Array.prototype.slice;
 canvas = $("canvas").get(0);
 vshader = Shader("vertex", "attribute vec3 position;\n\nvoid main() {\n  gl_Position = vec4( position, 1.0 );\n}");
@@ -18813,20 +18819,18 @@ drawPicture = function(gl) {
   setUniform(gl, "resolution", "2f", width, height);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
-  return framerate.snapshot();
+  if (framerate) {
+    return framerate.rendered();
+  }
 };
-start = function() {
+$(function() {
   var f, gl;
   if (!(gl = init())) {
     return null;
   }
-  framerate = Framerate();
   f = function() {
     window.requestAnimFrame(f, canvas);
     return drawPicture(gl);
   };
   return window.requestAnimFrame(f, canvas);
-};
-$(function() {
-  return start();
 }); });
