@@ -100,12 +100,12 @@ drawPicture = (gl) ->
   gl.drawArrays( gl.TRIANGLES, 0, 6 )
 
   # Show the framerate
-  framerate.rendered()
+  framerate.rendered() if framerate
 
 $ ->
   return unless (gl = init())
 
-  framerate = Framerate()
+  # framerate = Framerate()
 
   f = ->
     window.requestAnimFrame(f, canvas)
