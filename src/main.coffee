@@ -102,7 +102,7 @@ drawPicture = (gl) ->
   # Show the framerate
   framerate.rendered()
 
-start = ->
+$ ->
   return unless (gl = init())
 
   framerate = Framerate()
@@ -112,7 +112,4 @@ start = ->
     drawPicture(gl)
 
   window.requestAnimFrame(f, canvas)
-
-$ ->
-  start()
 
