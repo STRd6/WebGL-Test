@@ -1,0 +1,14 @@
+{
+  "name": "WebGL Test",
+  "description": "Witness the madness of WebGL",
+  "version": "0.0.1",
+  "app": {
+    "launch": {
+      "local_path": "main.html"
+    }
+  },
+  "icons": {
+    "16": "images/icon_16.png",
+    "128": "images/icon_128.png"
+  }
+}
